@@ -1,0 +1,15 @@
+meta:
+  environment: python
+  toolchain:
+    name: pip
+    version: 3.8
+build:
+  requirementsPath: requirements.txt
+run:
+  scriptName: run.py
+  persistenceMount: /data
+  containerPort: 80
+  env:
+    TOKEN: $TELEGRAM_BOT_TOKEN
+    PAYMENT_TOKEN: $PAYMENT_PROVIDER_TOKEN
+    DATABASE_URL: "sqlite:////data/data.db"

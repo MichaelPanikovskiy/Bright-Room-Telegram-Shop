@@ -1,0 +1,19 @@
+Инструкция по запуску:
+Создайте виртуальное окружение:
+
+python -m venv venv
+source venv/bin/activate
+Установите зависимости:
+
+pip install -r requirements.txt
+Инициализируйте базу данных:
+
+flask shell
+>>> from app import db
+>>> db.create_all()
+Запустите приложение:
+
+python run.py
+Настройте бота через @BotFather и укажите корректные URL в .env.
+
+Примечание: Для продакшена используйте PostgreSQL вместо SQLite и настройте HTTPS.
