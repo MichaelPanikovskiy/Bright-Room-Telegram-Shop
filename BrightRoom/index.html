@@ -2,10 +2,12 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Bright Room</title>
     <link rel="stylesheet" href="static/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Главная страница -->
@@ -34,7 +36,10 @@
         <div class="promo-grid" id="favorites-promo-grid"></div>
         <div class="promo-title">Избранное:</div>
         <div class="favorites-grid" id="favorites-grid"></div>
+		<div class="liner"></div>
+		<div class="liner"></div>
     </div>
+
 
 <!-- Страница профиля -->
 <div class="container" id="profile-page" style="display:none;">
@@ -44,12 +49,12 @@
     </div>
     <div class="profile-content">
         <div class="profile-header">
-            <img id="profile-avatar" src="static/f_user.png" alt="User Photo">
+            <img id="profile-avatar" src="static/profile_empty.png" alt="User Photo">
             <h2 id="profile-name">Имя Пользователя</h2>
         </div>
         <div class="profile-info">
-            <p><strong>Email:</strong> <span id="profile-email">user@example.com</span></p>
-            <p><strong>Телефон:</strong> <span id="profile-phone">+123456789</span></p>
+            <p>Email: <span id="profile-email">user@example.com</span></p>
+            <p>Телефон: <span id="profile-phone">+123456789</span></p>
         </div>
         <div class="profile-menu">
             <button class="menu-item" onclick="editProfile()">Редактировать профиль</button>
@@ -81,6 +86,7 @@
         </div>
         <div class="catalog-grid" id="catalog-grid"></div>
 		<div class="liner"></div>
+		
     </div>
 
     <!-- Страница корзины -->
@@ -94,7 +100,9 @@
             <div class="map"><a href="https://yandex.ru/maps/-/CHqabHiL"> <img src="static/map.png"></a></div>
             <div class="cart-title">Товары в корзине:</div>
             <div class="cart-items" id="cart-items"></div>
-            <button class="cart-button">Оформить заказ</button>
+            <button class="cart-button" onclick="checkout()">Оформить заказ</button>
+			<div class="liner"></div>
+			<div class="liner"></div>
         </div>
     </div>
 
@@ -105,10 +113,10 @@
             <div class="search-icon" onclick="showSearchPage()"><img src="static/f_seacrh.png"></div>
         </div>
         <div class="product-content">
-            <div class="product-image" id="product-image"></div>
+            <div class="product-image2" id="product-image2"></div>
 			<div class="product-actions">
-                <button class="add-to-favorites" id="add-to-favorites">❤️В избранное</button>
-                <button class="add-to-cart" id="add-to-cart">🛒В корзину</button>
+                <button class="add-to-favorites" id="add-to-favorites">В избранное</button>
+                <button class="add-to-cart" id="add-to-cart" onclick="toggleCartOnProductPage(${product.id})">В корзину</button>
             </div>
             <div class="product-title" id="product-title"></div>
             <div class="product-title" id="product-price"></div>
