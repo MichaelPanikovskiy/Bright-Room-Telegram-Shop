@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="static/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <!-- Главная страница -->
     <div class="container" id="home-page">
@@ -37,72 +39,142 @@
         <div class="promo-title">Избранное:</div>
         <div class="favorites-grid" id="favorites-grid"></div>
 		<div class="liner"></div>
-		<div class="liner"></div>
     </div>
 
-
-<!-- Страница профиля -->
-<div class="container" id="profile-page" style="display:none;">
-    <div class="header">
-        <h1>Bright Room</h1>
-        <div class="search-icon" onclick="showSearchPage()"><img src="static/f_seacrh.png"></div>
-    </div>
-    <div class="profile-content">
-        <div class="profile-header">
-            <img id="profile-avatar" src="static/profile_empty.png" alt="User Photo">
-            <h2 id="profile-name">Имя Пользователя</h2>
+    <!-- Страница профиля -->
+    <div class="container" id="profile-page" style="display:none;">
+        <div class="header">
+            <h1>Bright Room</h1>
+            <div class="search-icon" onclick="showSearchPage()"><img src="static/f_seacrh.png"></div>
         </div>
-        <div class="profile-info">
-            <p>Email: <span id="profile-email">user@example.com</span></p>
-            <p>Телефон: <span id="profile-phone">+123456789</span></p>
+        <div class="auth-section" id="auth-section">
+            <div class="auth-forms">
+                <input type="email" id="auth-email" placeholder="Email">
+                <input type="password" id="auth-password" placeholder="Пароль">
+                <button onclick="handleLogin()">Войти</button>
+                <button onclick="switchAuthMode('register')">Регистрация</button>
+            </div>
         </div>
-        <div class="profile-menu">
-            <button class="menu-item" onclick="editProfile()">Редактировать профиль</button>
-            <button class="menu-item" onclick="changePassword()">Изменить пароль</button>
-            <button class="menu-item" onclick="manageNotifications()">Уведомления</button>
-			<button class="menu-item" onclick="manageNotifications()">Мои заказы</button>
+        <div class="profile-content" id="profile-content" style="display:none;">
+            <div class="profile-header">
+                <img id="profile-avatar" src="static/profile_empty.png" alt="User Photo">
+                <h2 id="profile-name">Имя Пользователя</h2>
+                <p id="profile-email"></p>
+                <p id="profile-phone"></p>
+            </div>
+            <div class="profile-menu" id="profile-main-menu">
+                <button class="menu-item" onclick="showProfileSection('edit')">Редактировать профиль</button>
+                <button class="menu-item" onclick="showProfileSection('password')">Изменить пароль</button>
+                <button class="menu-item" onclick="showProfileSection('notifications')">Уведомления</button>
+                <button class="menu-item" onclick="showProfileSection('orders')">Мои заказы</button>
+                <button class="menu-item" id="admin-button" onclick="showProfileSection('admin')" style="display:none;">Админ-панель</button>
+                <button class="menu-item" onclick="logout()">Выйти</button>
+            </div>
+            <div class="profile-section" id="edit-section" style="visibility:hidden; position:absolute;">
+                <input type="text" id="edit-name" placeholder="Имя">
+                <input type="email" id="edit-email" placeholder="Email">
+                <input type="tel" id="edit-phone" placeholder="Телефон">
+                <button onclick="saveProfileChanges()">Сохранить</button>
+                <button onclick="showProfileSection('main')">Назад</button>
+            </div>
+            <div class="profile-section" id="password-section" style="visibility:hidden; position:absolute;">
+                <input type="password" id="current-password" placeholder="Текущий пароль">
+                <input type="password" id="new-password" placeholder="Новый пароль">
+                <input type="password" id="confirm-password" placeholder="Повторите пароль">
+                <button onclick="saveNewPassword()">Изменить</button>
+                <button onclick="showProfileSection('main')">Назад</button>
+            </div>
+            <div class="profile-section" id="notifications-section" style="visibility:hidden; position:absolute;">
+                <div class="notifications-list" id="notifications-list"></div>
+                <button onclick="showProfileSection('main')">Назад</button>
+            </div>
+            <div class="profile-section" id="orders-section" style="visibility:hidden; position:absolute;">
+                <div class="orders-list" id="orders-list"></div>
+                <button onclick="showProfileSection('main')">Назад</button>
+            </div>
+            <div class="profile-section" id="admin-section" style="visibility:hidden; position:absolute;">
+                <h3>Админ-панель</h3>
+                <div class="admin-tabs">
+                    <button class="tab-button" onclick="showAdminSubsection('products')">Товары</button>
+                    <button class="tab-button" onclick="showAdminSubsection('users')">Пользователи</button>
+                </div>
+                <div id="admin-products-subsection" style="display:none;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Цена</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-products-list"></tbody>
+                    </table>
+                    <button class="menu-item" onclick="showAddProductForm()">Добавить товар</button>
+                    <div id="add-product-form" style="display:none; margin-top:20px;">
+                        <input type="text" id="admin-product-name" placeholder="Название">
+                        <input type="number" id="admin-product-price" placeholder="Цена">
+                        <input type="text" id="admin-product-description" placeholder="Описание">
+                        <input type="text" id="admin-product-image" placeholder="URL изображения">
+                        <button onclick="addAdminProduct()">Добавить</button>
+                        <button onclick="hideAddProductForm()">Отмена</button>
+                    </div>
+                </div>
+                <div id="admin-users-subsection" style="display:none;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Имя</th>
+                                <th>ID</th>
+                                <th>Админ</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-users-list"></tbody>
+                    </table>
+                </div>
+                <button class="menu-item" onclick="showProfileSection('main')">Назад</button>
+                <div class="liner"></div>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Страница поиска -->
-<div class="container" id="search-page" style="display:none;">
-    <div class="header">
-        <h1>Поиск</h1>
+    <!-- Поиск -->
+    <div class="container" id="search-page" style="display:none;">
+        <div class="header">
+            <h1>Поиск</h1>
+        </div>
+        <div class="search-content">
+            <input type="text" id="search-input" placeholder="Введите запрос...">
+            <button id="search-button" onclick="performSearch()">Поиск</button>
+            <button class="back-button" onclick="showPage('home-page')">Назад</button>
+            <div id="search-results" class="search-results"></div>
+        </div>
     </div>
-    <div class="search-content">
-        <input type="text" id="search-input" placeholder="Введите запрос...">
-        <button id="search-button" onclick="performSearch()">Поиск</button>
-        <button class="back-button" onclick="showPage('home-page')">Назад</button>
-        <div id="search-results" class="search-results"></div>
-    </div>
-</div>
 
-    <!-- Страница каталога -->
-    <div class="container" id="catalog-page">
+    <!-- Каталог -->
+    <div class="container" id="catalog-page" style="display:none;">
         <div class="header">
             <h1>Bright Room</h1>
             <div class="search-icon" onclick="showSearchPage()"><img src="static/f_seacrh.png"></div>
         </div>
         <div class="catalog-grid" id="catalog-grid"></div>
-		<div class="liner"></div>
-		
+        <div class="liner"></div>
     </div>
 
-    <!-- Страница корзины -->
+    <!-- Корзина -->
     <div class="container" id="cart-page" style="display:none;">
         <div class="header">
             <h1>Bright Room</h1>
             <div class="search-icon" onclick="showSearchPage()"><img src="static/f_seacrh.png"></div>
         </div>
         <div class="cart">
-		    <div class="cart-title">Адрес для самовывоза:</div>
-            <div class="map"><a href="https://yandex.ru/maps/-/CHqabHiL"> <img src="static/map.png"></a></div>
+            <div class="cart-title">Адрес для самовывоза:</div>
+            <div class="map"><a href="https://yandex.ru/maps/-/CHqabHiL"><img src="static/map.png"></a></div>
             <div class="cart-title">Товары в корзине:</div>
             <div class="cart-items" id="cart-items"></div>
             <button class="cart-button" onclick="checkout()">Оформить заказ</button>
-			<div class="liner"></div>
-			<div class="liner"></div>
+            <div class="liner"></div>
+            <div class="liner"></div>
         </div>
     </div>
 
@@ -114,9 +186,9 @@
         </div>
         <div class="product-content">
             <div class="product-image2" id="product-image2"></div>
-			<div class="product-actions">
+            <div class="product-actions">
                 <button class="add-to-favorites" id="add-to-favorites">В избранное</button>
-                <button class="add-to-cart" id="add-to-cart" onclick="toggleCartOnProductPage(${product.id})">В корзину</button>
+                <button class="add-to-cart" id="add-to-cart">В корзину</button>
             </div>
             <div class="product-title" id="product-title"></div>
             <div class="product-title" id="product-price"></div>
@@ -125,7 +197,7 @@
         </div>
     </div>
 
-    <!-- Футер -->
+    <!-- Футер для навигации -->
     <div class="footer">
         <div class="footer-icon" onclick="showPage('home-page')"><img class="footer-img" src="static/f_home.png"></div>
         <div class="footer-icon" onclick="showPage('catalog-page')"><img class="footer-img" src="static/f_catalog.png"></div>
@@ -134,6 +206,47 @@
         <div class="footer-icon" onclick="showPage('profile-page')"><img class="footer-img" src="static/f_user.png"></div>
     </div>
 
+    <!-- Кастомный алерт -->
+    <div id="custom-alert" class="custom-alert" style="display:none;">
+        <div class="custom-alert-content">
+            <p id="alert-message"></p>
+            <button class="menu-item" onclick="hideAlert()">ОК</button>
+        </div>
+    </div>
+
     <script src="static/script.js"></script>
+    <script>
+        (function() {
+            function c() {
+                var b = a.contentDocument || a.contentWindow.document;
+                if (b) {
+                    var d = b.createElement('script');
+                    d.innerHTML = "window.__CF$cv$params={r:'91a0d1df9c5ee592',t:'MTc0MDkxNzcyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+                    b.getElementsByTagName('head')[0].appendChild(d)
+                }
+            }
+            if (document.body) {
+                var a = document.createElement('iframe');
+                a.height = 1;
+                a.width = 1;
+                a.style.position = 'absolute';
+                a.style.top = 0;
+                a.style.left = 0;
+                a.style.border = 'none';
+                a.style.visibility = 'hidden';
+                document.body.appendChild(a);
+                if ('loading' !== document.readyState) c();
+                else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+                else {
+                    var e = document.onreadystatechange || function() {};
+                    document.onreadystatechange = function(b) {
+                        e(b);
+                        'loading' !== document.readyState && (document.onreadystatechange = e, c())
+                    }
+                }
+            }
+        })();
+    </script>
 </body>
+
 </html>
